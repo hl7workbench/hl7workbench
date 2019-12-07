@@ -5,9 +5,23 @@ TARGET = hl7workbench
 TEMPLATE = lib
 CONFIG += staticlib
 
-HEADERS += Library.h
+HEADERS += Library.h \
+    Hl7Message.h \
+    Hl7Segment.h \
+    Hl7Component.h \
+    Hl7SubComponent.h \
+    Hl7EncodingCharacters.h \
+    Hl7Field.h \
+    Hl7MessagePart.h
 
-SOURCES += Library.cpp
+SOURCES += Library.cpp \
+    Hl7Message.cpp \
+    Hl7Segment.cpp \
+    Hl7Component.cpp \
+    Hl7SubComponent.cpp \
+    Hl7EncodingCharacters.cpp \
+    Hl7Field.cpp \
+    Hl7MessagePart.cpp
 
 
 unix {

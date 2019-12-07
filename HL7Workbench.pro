@@ -7,3 +7,7 @@ SUBDIRS += \
 
 OTHER_FILES = .gitignore \
               Global.pri
+
+GuiApplication.depends = Library
+UnitTests.depends = Library
+
