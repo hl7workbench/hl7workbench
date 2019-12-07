@@ -50,6 +50,10 @@ void UnitTests::testCase_Parser_V24_3_5_1_AdtA01()
     QCOMPARE(message->field("MSH", 1)->toString(), QString("|"));
     QCOMPARE(message->field("MSH", 2)->toString(), QString("^~\\&"));
 
+    QCOMPARE(message->field("MSH", 9)->toString(), QString("ADT^A01"));
+    QCOMPARE(message->component("MSH", 9, 1)->toString(), QString("ADT"));
+    QCOMPARE(message->component("MSH", 9, 2)->toString(), QString("A01"));
+
     // Patient William A. Jones, III
     QCOMPARE(message->component("PID", 5, 2)->toString(), QString("WILLIAM"));
     QCOMPARE(message->component("PID", 5, 3)->toString(), QString("A"));
