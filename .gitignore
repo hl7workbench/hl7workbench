@@ -1,4 +1,5 @@
 *~
+*.autosave
 *.pro.user
 *.save
 build/
