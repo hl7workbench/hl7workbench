@@ -27,3 +27,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs deprecated before Qt 5.0.0
+
+# Enable arrow operator for weak pointers
+DEFINES += QWEAKPOINTER_ENABLE_ARROW
