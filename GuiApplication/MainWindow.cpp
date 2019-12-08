@@ -30,6 +30,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionFile_New, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::newFile);
+
+    connect(ui->actionFile_Save, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::saveFile);
+    connect(ui->actionFile_SaveAs, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::saveFileAs);
+    connect(ui->actionFile_SaveAll, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::saveAllFiles);
+
     connect(ui->actionFile_Close, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeCurrentTab);
     connect(ui->actionFile_CloseAll, &QAction::triggered,

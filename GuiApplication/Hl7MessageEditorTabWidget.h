@@ -38,9 +38,12 @@ public slots:
     void closeAllTabs();
     void closeCurrentTab();
     void closeTab(int index);
+    void fileNameChangedInEditor(QString newFileName);
     void newFile();
-
     void removeUntitledDoucmentId(int id);
+    void saveFile();
+    void saveFileAs();
+    void saveAllFiles();
 
 private:
     QList<int> m_untitledDocumentIds;

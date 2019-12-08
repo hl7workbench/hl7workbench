@@ -21,6 +21,7 @@
 #define HL7MESSAGEEDITORWIDGET_H
 
 #include <QTextEdit>
+#include <QFileInfo>
 
 class Hl7MessageEditorWidget : public QTextEdit
 {
@@ -29,14 +30,24 @@ class Hl7MessageEditorWidget : public QTextEdit
 public:
     explicit Hl7MessageEditorWidget(int untitledDocumentId = 1,
                                     QWidget *parent = Q_NULLPTR);
-    explicit Hl7MessageEditorWidget(const QString &filename,
+    explicit Hl7MessageEditorWidget(const QString &fileName,
                                     QWidget *parent = Q_NULLPTR);
 
-    const QString &filename() const;
+    QString fileName() const;
     int untitledDocumentId() const;
 
+signals:
+    void removeUntitledDocumentId(int id);
+    void fileNameChanged(QString newFileName);
+
+public slots:
+    void saveFile();
+    void saveFileAs();
+
 private:
-    QString m_filename;
+    void saveTo(const QFileInfo &fileInfo);
+
+    QFileInfo m_fileInfo;
     int m_untitledDocumentId;
 };
 

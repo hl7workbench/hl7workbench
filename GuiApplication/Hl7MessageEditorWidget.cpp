@@ -19,10 +19,14 @@
 
 #include "Hl7MessageEditorWidget.h"
 
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QTextStream>
+
 Hl7MessageEditorWidget::Hl7MessageEditorWidget(int untitledDocumentId,
                                                QWidget *parent) :
     QTextEdit(parent),
-    m_filename(QString("Untitled %1.hl7").arg(untitledDocumentId)),
+    m_fileInfo(QString("Untitled %1.hl7").arg(untitledDocumentId)),
     m_untitledDocumentId(untitledDocumentId)
 {
     QFont f = currentFont();
@@ -33,17 +37,83 @@ Hl7MessageEditorWidget::Hl7MessageEditorWidget(int untitledDocumentId,
 Hl7MessageEditorWidget::Hl7MessageEditorWidget(const QString &filename,
                                                QWidget *parent) :
     QTextEdit(parent),
-    m_filename(filename),
+    m_fileInfo(filename),
     m_untitledDocumentId(-1)
 {
 }
 
-const QString &Hl7MessageEditorWidget::filename() const
+QString Hl7MessageEditorWidget::fileName() const
 {
-    return m_filename;
+    return m_fileInfo.fileName();
 }
 
 int Hl7MessageEditorWidget::untitledDocumentId() const
 {
     return m_untitledDocumentId;
+}
+
+void Hl7MessageEditorWidget::saveFile()
+{
+    if (-1 != m_untitledDocumentId)
+    {
+        saveFileAs();
+    }
+    else
+    {
+        saveTo(m_fileInfo.filePath());
+    }
+}
+
+void Hl7MessageEditorWidget::saveFileAs()
+{
+    QString folder;
+    if (-1 == m_untitledDocumentId)
+    {
+        folder = m_fileInfo.absoluteDir().absolutePath();
+    }
+    else
+    {
+        QDir documentsDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+
+        if (documentsDir.exists())
+        {
+            folder = documentsDir.absolutePath();
+        }
+        else
+        {
+            folder = QDir::currentPath();
+        }
+    }
+
+    QFileDialog saveDialog(this, "Save File As", folder, "HL7 Files (*.hl7);;Text Files (*.txt);;All Files(*.*)");
+    saveDialog.setAcceptMode(QFileDialog::AcceptSave);
+    saveDialog.selectFile(m_fileInfo.fileName());
+
+    if (QDialog::Accepted == saveDialog.exec() &&
+            1 == saveDialog.selectedFiles().count())
+    {
+        saveTo(QFileInfo(QDir(folder).absoluteFilePath(saveDialog.selectedFiles()[0])));
+    }
+}
+
+void Hl7MessageEditorWidget::saveTo(const QFileInfo &fileInfo)
+{
+    QFile file(fileInfo.absoluteFilePath());
+    if (file.open(QFile::Text | QFile::WriteOnly))
+    {
+        QTextStream stream(&file);
+        QStringList lines = toPlainText().split('\n');
+        for (const QString l : lines)
+        {
+            stream << l << endl;
+        }
+        stream.flush();
+        file.close();
+
+        emit removeUntitledDocumentId(m_untitledDocumentId);
+        m_untitledDocumentId = -1;
+
+        m_fileInfo = fileInfo;
+        emit fileNameChanged(m_fileInfo.fileName());
+    }
 }

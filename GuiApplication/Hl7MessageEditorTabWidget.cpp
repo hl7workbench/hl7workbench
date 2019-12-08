@@ -84,6 +84,15 @@ void Hl7MessageEditorTabWidget::closeTab(int index)
     closeTab(index, true);
 }
 
+void Hl7MessageEditorTabWidget::fileNameChangedInEditor(QString newFileName)
+{
+    int index = indexOf(qobject_cast<Hl7MessageEditorWidget*>(sender()));
+    if (index != -1)
+    {
+        setTabText(index, newFileName);
+    }
+}
+
 void Hl7MessageEditorTabWidget::newFile()
 {
     int i = 0;
@@ -97,11 +106,47 @@ void Hl7MessageEditorTabWidget::newFile()
     m_untitledDocumentIds.insert(i-1, i);
 
     Hl7MessageEditorWidget *w = new Hl7MessageEditorWidget(i, this);
-    addTab(w, w->filename());
+
+    connect(w, &Hl7MessageEditorWidget::fileNameChanged,
+            this, &Hl7MessageEditorTabWidget::fileNameChangedInEditor);
+    connect(w, &Hl7MessageEditorWidget::removeUntitledDocumentId,
+            this, &Hl7MessageEditorTabWidget::removeUntitledDoucmentId);
+
+    addTab(w, w->fileName());
     setCurrentWidget(w);
 }
 
 void Hl7MessageEditorTabWidget::removeUntitledDoucmentId(int id)
 {
     m_untitledDocumentIds.removeAll(id);
+}
+
+void Hl7MessageEditorTabWidget::saveFile()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->saveFile();
+    }
+}
+
+void Hl7MessageEditorTabWidget::saveFileAs()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->saveFileAs();
+    }
+}
+
+void Hl7MessageEditorTabWidget::saveAllFiles()
+{
+    for (int i = 0; i < count(); i++)
+    {
+        if (Hl7MessageEditorWidget *w =
+                qobject_cast<Hl7MessageEditorWidget*>(widget(i)))
+        {
+            w->saveFileAs();
+        }
+    }
 }
