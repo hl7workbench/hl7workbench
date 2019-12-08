@@ -24,12 +24,12 @@ TEMPLATE = app
 
 HEADERS += MainWindow.h \
     Hl7MessageEditorTabWidget.h \
-    HL7MessageEditorWidget.h
+    Hl7MessageEditorWidget.h
 
 SOURCES += main.cpp \
            MainWindow.cpp \
     Hl7MessageEditorTabWidget.cpp \
-    HL7MessageEditorWidget.cpp
+    Hl7MessageEditorWidget.cpp
 
 FORMS += MainWindow.ui
 

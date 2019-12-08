@@ -17,9 +17,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "HL7MessageEditorWidget.h"
+#include "Hl7MessageEditorWidget.h"
 
-HL7MessageEditorWidget::HL7MessageEditorWidget(int untitledDocumentId,
+Hl7MessageEditorWidget::Hl7MessageEditorWidget(int untitledDocumentId,
                                                QWidget *parent) :
     QTextEdit(parent),
     m_filename(QString("Untitled %1.hl7").arg(untitledDocumentId)),
@@ -30,7 +30,7 @@ HL7MessageEditorWidget::HL7MessageEditorWidget(int untitledDocumentId,
     setFont(QFont("Ubuntu Mono", f.pointSize()));
 }
 
-HL7MessageEditorWidget::HL7MessageEditorWidget(const QString &filename,
+Hl7MessageEditorWidget::Hl7MessageEditorWidget(const QString &filename,
                                                QWidget *parent) :
     QTextEdit(parent),
     m_filename(filename),
@@ -38,12 +38,12 @@ HL7MessageEditorWidget::HL7MessageEditorWidget(const QString &filename,
 {
 }
 
-const QString &HL7MessageEditorWidget::filename() const
+const QString &Hl7MessageEditorWidget::filename() const
 {
     return m_filename;
 }
 
-int HL7MessageEditorWidget::untitledDocumentId() const
+int Hl7MessageEditorWidget::untitledDocumentId() const
 {
     return m_untitledDocumentId;
 }

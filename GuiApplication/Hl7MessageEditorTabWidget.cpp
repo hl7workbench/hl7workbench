@@ -19,7 +19,7 @@
 
 #include "Hl7MessageEditorTabWidget.h"
 
-#include "HL7MessageEditorWidget.h"
+#include "Hl7MessageEditorWidget.h"
 
 Hl7MessageEditorTabWidget::Hl7MessageEditorTabWidget(QWidget *parent) :
     QTabWidget(parent),
@@ -39,8 +39,8 @@ Hl7MessageEditorTabWidget::Hl7MessageEditorTabWidget(QWidget *parent) :
 
 void Hl7MessageEditorTabWidget::closeTab(int index, bool openNewWhenLast)
 {
-    if (HL7MessageEditorWidget *w =
-        qobject_cast<HL7MessageEditorWidget*>(widget(index)))
+    if (Hl7MessageEditorWidget *w =
+        qobject_cast<Hl7MessageEditorWidget*>(widget(index)))
     {
         removeUntitledDoucmentId(w->untitledDocumentId());
     }
@@ -96,7 +96,7 @@ void Hl7MessageEditorTabWidget::newFile()
     i++;
     m_untitledDocumentIds.insert(i-1, i);
 
-    HL7MessageEditorWidget *w = new HL7MessageEditorWidget(i, this);
+    Hl7MessageEditorWidget *w = new Hl7MessageEditorWidget(i, this);
     addTab(w, w->filename());
     setCurrentWidget(w);
 }

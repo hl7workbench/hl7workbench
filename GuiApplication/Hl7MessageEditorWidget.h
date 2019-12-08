@@ -22,14 +22,14 @@
 
 #include <QTextEdit>
 
-class HL7MessageEditorWidget : public QTextEdit
+class Hl7MessageEditorWidget : public QTextEdit
 {
     Q_OBJECT
 
 public:
-    explicit HL7MessageEditorWidget(int untitledDocumentId = 1,
+    explicit Hl7MessageEditorWidget(int untitledDocumentId = 1,
                                     QWidget *parent = Q_NULLPTR);
-    explicit HL7MessageEditorWidget(const QString &filename,
+    explicit Hl7MessageEditorWidget(const QString &filename,
                                     QWidget *parent = Q_NULLPTR);
 
     const QString &filename() const;
