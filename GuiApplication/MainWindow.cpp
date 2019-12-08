@@ -20,11 +20,22 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "Hl7MessageEditorTabWidget.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(ui->actionNewFile, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::newFile);
+    connect(ui->actionCloseCurrentFile, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeCurrentTab);
+    connect(ui->actionCloseAllFiles, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllTabs);
+    connect(ui->actionCloseAllExceptCurrentFile, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllExceptCurrentTab);
 }
 
 MainWindow::~MainWindow()

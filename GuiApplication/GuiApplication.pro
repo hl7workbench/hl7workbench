@@ -22,10 +22,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = hl7workbench
 TEMPLATE = app
 
-HEADERS += MainWindow.h
+HEADERS += MainWindow.h \
+    Hl7MessageEditorTabWidget.h \
+    HL7MessageEditorWidget.h
 
 SOURCES += main.cpp \
-           MainWindow.cpp
+           MainWindow.cpp \
+    Hl7MessageEditorTabWidget.cpp \
+    HL7MessageEditorWidget.cpp
 
 FORMS += MainWindow.ui
 
