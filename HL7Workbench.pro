@@ -24,7 +24,8 @@ SUBDIRS += \
     UnitTests
 
 OTHER_FILES = .gitignore \
-              Global.pri
+              Global.pri \
+              license-template.txt
 
 GuiApplication.depends = Library
 UnitTests.depends = Library
