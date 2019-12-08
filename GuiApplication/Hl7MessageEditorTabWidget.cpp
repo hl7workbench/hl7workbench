@@ -30,11 +30,8 @@ Hl7MessageEditorTabWidget::Hl7MessageEditorTabWidget(QWidget *parent) :
 
     setTabsClosable(true);
 
-    // TODO: add logic for opening last opened files
-    // otherwise
-    {
-        newFile();
-    }
+    connect(this, &QTabWidget::currentChanged,
+            this, &Hl7MessageEditorTabWidget::currentTabChanged);
 }
 
 void Hl7MessageEditorTabWidget::closeTab(int index, bool openNewWhenLast)
@@ -84,12 +81,35 @@ void Hl7MessageEditorTabWidget::closeTab(int index)
     closeTab(index, true);
 }
 
+void Hl7MessageEditorTabWidget::currentTabChanged(int index)
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(widget(index)))
+    {
+        emit viewedFileNameChanged(w->fileName());
+    }
+}
+
 void Hl7MessageEditorTabWidget::fileNameChangedInEditor(QString newFileName)
 {
     int index = indexOf(qobject_cast<Hl7MessageEditorWidget*>(sender()));
     if (index != -1)
     {
         setTabText(index, newFileName);
+
+        if (index == currentIndex())
+        {
+            emit viewedFileNameChanged(newFileName);
+        }
+    }
+}
+
+void Hl7MessageEditorTabWidget::filePathChangedInEditor(QString newFilePath)
+{
+    int index = indexOf(qobject_cast<Hl7MessageEditorWidget*>(sender()));
+    if (index != -1)
+    {
+        setTabToolTip(index, newFilePath);
     }
 }
 
@@ -109,11 +129,16 @@ void Hl7MessageEditorTabWidget::newFile()
 
     connect(w, &Hl7MessageEditorWidget::fileNameChanged,
             this, &Hl7MessageEditorTabWidget::fileNameChangedInEditor);
+    connect(w, &Hl7MessageEditorWidget::filePathChanged,
+            this, &Hl7MessageEditorTabWidget::filePathChangedInEditor);
     connect(w, &Hl7MessageEditorWidget::removeUntitledDocumentId,
             this, &Hl7MessageEditorTabWidget::removeUntitledDoucmentId);
 
-    addTab(w, w->fileName());
+    QString fileName = w->fileName();
+    int index = addTab(w, fileName);
+    setTabToolTip(index, fileName);
     setCurrentWidget(w);
+    emit viewedFileNameChanged(fileName);
 }
 
 void Hl7MessageEditorTabWidget::removeUntitledDoucmentId(int id)
@@ -148,5 +173,15 @@ void Hl7MessageEditorTabWidget::saveAllFiles()
         {
             w->saveFileAs();
         }
+    }
+}
+
+void Hl7MessageEditorTabWidget::showEvent(QShowEvent *e)
+{
+    QTabWidget::showEvent(e);
+
+    if (count() == 0)
+    {
+        newFile();
     }
 }

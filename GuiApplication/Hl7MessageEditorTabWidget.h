@@ -32,18 +32,24 @@ public:
     void closeTab(int index, bool openNewWhenLast);
 
 signals:
+    void viewedFileNameChanged(QString fileName);
 
 public slots:
     void closeAllExceptCurrentTab();
     void closeAllTabs();
     void closeCurrentTab();
     void closeTab(int index);
+    void currentTabChanged(int index);
     void fileNameChangedInEditor(QString newFileName);
+    void filePathChangedInEditor(QString newFilePath);
     void newFile();
     void removeUntitledDoucmentId(int id);
     void saveFile();
     void saveFileAs();
     void saveAllFiles();
+
+protected:
+    virtual void showEvent(QShowEvent *e) override;
 
 private:
     QList<int> m_untitledDocumentIds;

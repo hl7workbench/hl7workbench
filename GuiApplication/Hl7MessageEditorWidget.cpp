@@ -47,6 +47,11 @@ QString Hl7MessageEditorWidget::fileName() const
     return m_fileInfo.fileName();
 }
 
+QString Hl7MessageEditorWidget::filePath() const
+{
+    return m_fileInfo.absoluteFilePath();
+}
+
 int Hl7MessageEditorWidget::untitledDocumentId() const
 {
     return m_untitledDocumentId;
@@ -115,5 +120,6 @@ void Hl7MessageEditorWidget::saveTo(const QFileInfo &fileInfo)
 
         m_fileInfo = fileInfo;
         emit fileNameChanged(m_fileInfo.fileName());
+        emit filePathChanged(m_fileInfo.absoluteFilePath());
     }
 }

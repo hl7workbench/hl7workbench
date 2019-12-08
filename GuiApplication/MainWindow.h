@@ -34,6 +34,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void viewedFileNameChanged(QString fileName);
+
 private slots:
     void on_actionFile_Exit_triggered();
 

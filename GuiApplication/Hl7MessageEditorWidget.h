@@ -34,11 +34,13 @@ public:
                                     QWidget *parent = Q_NULLPTR);
 
     QString fileName() const;
+    QString filePath() const;
     int untitledDocumentId() const;
 
 signals:
     void removeUntitledDocumentId(int id);
     void fileNameChanged(QString newFileName);
+    void filePathChanged(QString newFilePath);
 
 public slots:
     void saveFile();

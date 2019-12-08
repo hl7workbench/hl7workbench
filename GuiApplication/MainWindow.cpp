@@ -44,11 +44,19 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllTabs);
     connect(ui->actionFile_CloseOthers, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllExceptCurrentTab);
+
+    connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::viewedFileNameChanged,
+            this, &MainWindow::viewedFileNameChanged);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::viewedFileNameChanged(QString fileName)
+{
+    setWindowTitle(QString("HL7 Workbench [%1]").arg(fileName));
 }
 
 void MainWindow::on_actionFile_Exit_triggered()
