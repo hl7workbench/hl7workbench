@@ -38,7 +38,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 
-    void testCase_Parser_V24_3_5_1_AdtA01();
+    void testCase_Hl7Message_fromString_V24_3_5_1_AdtA01();
 };
 
 UnitTests::UnitTests()
@@ -53,7 +53,7 @@ void UnitTests::cleanupTestCase()
 {
 }
 
-void UnitTests::testCase_Parser_V24_3_5_1_AdtA01()
+void UnitTests::testCase_Hl7Message_fromString_V24_3_5_1_AdtA01()
 {
     QString messageString = "MSH|^~\\&|ADT1|MCM|LABADT|MCM|198808181126|SECURITY|ADT^A01|MSG00001|P|2.4|\r"
                             "EVN|A01|198808181123||\r"
@@ -66,9 +66,68 @@ void UnitTests::testCase_Parser_V24_3_5_1_AdtA01()
     QVERIFY(!message.isNull());
     QVERIFY(message->isValid());
 
+    // test MSH-1 and MSH-2 which are a little bit special
     QCOMPARE(message->field("MSH", 1)->toString(), QString("|"));
     QCOMPARE(message->field("MSH", 2)->toString(), QString("^~\\&"));
 
+    // field with data
+    QVERIFY(!message->field("EVN", 1).isNull());
+    QCOMPARE(message->field("EVN", 1)->toString(), QString("A01"));
+    QVERIFY(!message->segment("EVN")->field(1).isNull());
+    QCOMPARE(message->segment("EVN")->field(1)->toString(), QString("A01"));
+
+    // field with no data
+    QVERIFY(!message->field("EVN", 3).isNull());
+    QVERIFY(message->field("EVN", 3)->toString().isEmpty());
+    QVERIFY(!message->segment("EVN")->field(3).isNull());
+    QVERIFY(message->segment("EVN")->field(3)->toString().isEmpty());
+
+    // empty at end of segment
+    QVERIFY(!message->field("EVN", 4).isNull());
+    QVERIFY(message->field("EVN", 4)->toString().isEmpty());
+    QVERIFY(!message->segment("EVN")->field(4).isNull());
+    QVERIFY(message->segment("EVN")->field(4)->toString().isEmpty());
+
+    // valid segment, invalid field
+    QVERIFY(!message->segment("EVN").isNull());
+    QVERIFY(message->field("EVN", 5).isNull());
+    QVERIFY(message->segment("EVN")->field(5).isNull());
+
+    // invalid segment, invalid field
+    QVERIFY(message->segment("AIL").isNull());
+    QVERIFY(message->field("AIL", 1).isNull());
+
+    // component with data
+    QVERIFY(!message->component("PID", 11, 1).isNull());
+    QCOMPARE(message->component("PID", 11, 1)->toString(), QString("1200 N ELM STREET"));
+    QVERIFY(!message->segment("PID")->component(11, 1).isNull());
+    QCOMPARE(message->segment("PID")->component(11, 1)->toString(), QString("1200 N ELM STREET"));
+    QVERIFY(!message->segment("PID")->field(11)->component(1).isNull());
+    QCOMPARE(message->segment("PID")->field(11)->component(1)->toString(), QString("1200 N ELM STREET"));
+    QVERIFY(!message->field("PID", 11)->component(1).isNull());
+    QCOMPARE(message->field("PID", 11)->component(1)->toString(), QString("1200 N ELM STREET"));
+
+    // component with no data
+    QVERIFY(!message->component("PID", 11, 2).isNull());
+    QVERIFY(message->component("PID", 11, 2)->toString().isEmpty());
+    QVERIFY(!message->segment("PID")->component(11, 2).isNull());
+    QVERIFY(message->segment("PID")->component(11, 2)->toString().isEmpty());
+    QVERIFY(!message->segment("PID")->field(11)->component(2).isNull());
+    QVERIFY(message->segment("PID")->field(11)->component(2)->toString().isEmpty());
+    QVERIFY(!message->field("PID", 11)->component(2).isNull());
+    QVERIFY(message->field("PID", 11)->component(2)->toString().isEmpty());
+
+    // valid field, invalid component
+    QVERIFY(message->component("PID", 11, 6).isNull());
+    QVERIFY(message->segment("PID")->component(11, 6).isNull());
+    QVERIFY(message->segment("PID")->field(11)->component(6).isNull());
+    QVERIFY(message->field("PID", 11)->component(6).isNull());
+
+    // valid segment, invalid field
+    QVERIFY(message->component("EVN", 5, 1).isNull());
+    QVERIFY(message->segment("EVN")->component(5, 1).isNull());
+
+    // test the MSH-9 field, reading components and combined as a field
     QCOMPARE(message->field("MSH", 9)->toString(), QString("ADT^A01"));
     QCOMPARE(message->component("MSH", 9, 1)->toString(), QString("ADT"));
     QCOMPARE(message->component("MSH", 9, 2)->toString(), QString("A01"));

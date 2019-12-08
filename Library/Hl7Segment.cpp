@@ -69,7 +69,16 @@ QSharedPointer<Hl7Segment> Hl7Segment::fromString(QWeakPointer<const Hl7Message>
 
 QSharedPointer<Hl7Component> Hl7Segment::component(qint64 fieldId, qint64 componentId) const
 {
-    return field(fieldId)->component(componentId);
+    QWeakPointer<Hl7Field> f = field(fieldId);
+
+    if (!f.isNull())
+    {
+        return f->component(componentId);
+    }
+    else
+    {
+        return QSharedPointer<Hl7Component>();
+    }
 }
 
 QSharedPointer<Hl7Field> Hl7Segment::field(qint64 fieldId) const

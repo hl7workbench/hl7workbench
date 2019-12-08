@@ -81,15 +81,35 @@ QSharedPointer<Hl7Message> Hl7Message::fromString(const QString &input,
     return result;
 }
 
-QSharedPointer<Hl7Component> Hl7Message::component(const QString &segmentId, qint64 fieldId, qint64 componentId) const
+QSharedPointer<Hl7Component> Hl7Message::component(const QString &segmentId,
+                                                   qint64 fieldId,
+                                                   qint64 componentId) const
 {
-    return field(segmentId, fieldId)->component(componentId);
+    QWeakPointer<Hl7Field> f = field(segmentId, fieldId);
+
+    if (!f.isNull())
+    {
+        return f->component(componentId);
+    }
+    else
+    {
+        return QSharedPointer<Hl7Component>();
+    }
 }
 
 QSharedPointer<Hl7Field> Hl7Message::field(const QString &segmentId,
                                            qint64 fieldId) const
 {
-    return segment(segmentId)->field(fieldId);
+    QWeakPointer<Hl7Segment> s = segment(segmentId);
+
+    if (!s.isNull())
+    {
+        return s->field(fieldId);
+    }
+    else
+    {
+        return QSharedPointer<Hl7Field>();
+    }
 }
 
 bool Hl7Message::isValid() const
