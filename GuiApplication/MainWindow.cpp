@@ -28,13 +28,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->actionNewFile, &QAction::triggered,
+    connect(ui->actionFile_New, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::newFile);
-    connect(ui->actionCloseCurrentFile, &QAction::triggered,
+    connect(ui->actionFile_Close, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeCurrentTab);
-    connect(ui->actionCloseAllFiles, &QAction::triggered,
+    connect(ui->actionFile_CloseAll, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllTabs);
-    connect(ui->actionCloseAllExceptCurrentFile, &QAction::triggered,
+    connect(ui->actionFile_CloseOthers, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllExceptCurrentTab);
 }
 

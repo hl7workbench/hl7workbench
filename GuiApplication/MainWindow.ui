@@ -85,9 +85,15 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="sendMessageButton">
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>Send...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="media-playback-start"/>
+                 </property>
+                 <property name="shortcut">
+                  <string>F5</string>
                  </property>
                 </widget>
                </item>
@@ -170,7 +176,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <widget class="QMenu" name="menuRecent">
+    <widget class="QMenu" name="menuFile_Recent">
      <property name="title">
       <string>Recent</string>
      </property>
@@ -178,49 +184,56 @@
      <addaction name="actionB"/>
      <addaction name="actionC"/>
     </widget>
-    <addaction name="actionNewFile"/>
-    <addaction name="actionOpen"/>
-    <addaction name="menuRecent"/>
+    <addaction name="actionFile_New"/>
+    <addaction name="actionFile_Open"/>
+    <addaction name="menuFile_Recent"/>
     <addaction name="separator"/>
-    <addaction name="actionCloseCurrentFile"/>
-    <addaction name="actionCloseAllFiles"/>
-    <addaction name="actionCloseAllExceptCurrentFile"/>
+    <addaction name="actionFile_Save"/>
+    <addaction name="actionFile_SaveAs"/>
+    <addaction name="actionFile_SaveAll"/>
     <addaction name="separator"/>
-    <addaction name="actionExit"/>
+    <addaction name="actionFile_Close"/>
+    <addaction name="actionFile_CloseAll"/>
+    <addaction name="actionFile_CloseOthers"/>
+    <addaction name="separator"/>
+    <addaction name="actionFile_Print"/>
+    <addaction name="separator"/>
+    <addaction name="actionFile_Exit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
-     <string>Edit</string>
+     <string>&amp;Edit</string>
     </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
+    <addaction name="actionEdit_Undo"/>
+    <addaction name="actionEdit_Redo"/>
     <addaction name="separator"/>
-    <addaction name="actionCopy"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionPaste"/>
+    <addaction name="actionEdit_Cut"/>
+    <addaction name="actionEdit_Copy"/>
+    <addaction name="actionEdit_Paste"/>
+    <addaction name="actionEdit_Delete"/>
     <addaction name="separator"/>
-    <addaction name="actionSelect_All"/>
+    <addaction name="actionEdit_SelectAll"/>
     <addaction name="separator"/>
-    <addaction name="actionFind_Replace"/>
+    <addaction name="actionEdit_FindReplace"/>
    </widget>
    <widget class="QMenu" name="menuSender">
     <property name="title">
-     <string>Sender</string>
+     <string>&amp;Sender</string>
     </property>
-    <addaction name="actionSend_Message"/>
+    <addaction name="actionSender_SendMessage"/>
    </widget>
    <widget class="QMenu" name="menuReceiver">
     <property name="title">
-     <string>Receiver</string>
+     <string>&amp;Receiver</string>
     </property>
-    <addaction name="actionCreate_New_Receiver"/>
+    <addaction name="actionReceiver_CreateNewReceiver"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuSender"/>
    <addaction name="menuReceiver"/>
   </widget>
-  <action name="actionCloseCurrentFile">
+  <action name="actionFile_Close">
    <property name="text">
     <string>Close Current File</string>
    </property>
@@ -228,9 +241,12 @@
     <string>Ctrl+W</string>
    </property>
   </action>
-  <action name="actionOpen">
+  <action name="actionFile_Open">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
    <property name="text">
-    <string>Open</string>
+    <string>&amp;Open...</string>
    </property>
   </action>
   <action name="actionA">
@@ -248,65 +264,116 @@
     <string>C</string>
    </property>
   </action>
-  <action name="actionUndo">
+  <action name="actionEdit_Undo">
+   <property name="icon">
+    <iconset theme="edit-undo"/>
+   </property>
    <property name="text">
     <string>Undo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
   </action>
-  <action name="actionRedo">
+  <action name="actionEdit_Redo">
+   <property name="icon">
+    <iconset theme="edit-redo"/>
+   </property>
    <property name="text">
     <string>Redo</string>
    </property>
-  </action>
-  <action name="actionCopy">
-   <property name="text">
-    <string>Copy</string>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
-  <action name="actionCut">
+  <action name="actionEdit_Copy">
+   <property name="icon">
+    <iconset theme="edit-copy"/>
+   </property>
    <property name="text">
-    <string>Cut</string>
+    <string>&amp;Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
-  <action name="actionPaste">
+  <action name="actionEdit_Cut">
+   <property name="icon">
+    <iconset theme="edit-cut"/>
+   </property>
    <property name="text">
-    <string>Paste</string>
+    <string>Cu&amp;t</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
    </property>
   </action>
-  <action name="actionSelect_All">
+  <action name="actionEdit_Paste">
+   <property name="icon">
+    <iconset theme="edit-paste"/>
+   </property>
    <property name="text">
-    <string>Select All</string>
+    <string>&amp;Paste</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
-  <action name="actionFind_Replace">
+  <action name="actionEdit_SelectAll">
+   <property name="icon">
+    <iconset theme="edit-select-all"/>
+   </property>
    <property name="text">
-    <string>Find/Replace</string>
+    <string>Select &amp;All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="actionSend_Message">
+  <action name="actionEdit_FindReplace">
+   <property name="icon">
+    <iconset theme="edit-find-replace"/>
+   </property>
    <property name="text">
-    <string>Send Message</string>
+    <string>&amp;Find/Replace</string>
    </property>
   </action>
-  <action name="actionCreate_New_Receiver">
+  <action name="actionSender_SendMessage">
+   <property name="icon">
+    <iconset theme="media-playback-start"/>
+   </property>
    <property name="text">
-    <string>Create New Receiver...</string>
+    <string>&amp;Send Message...</string>
    </property>
   </action>
-  <action name="actionCloseAllExceptCurrentFile">
+  <action name="actionReceiver_CreateNewReceiver">
+   <property name="icon">
+    <iconset theme="network-server"/>
+   </property>
    <property name="text">
-    <string>Close All Other Files</string>
+    <string>&amp;Create New Receiver...</string>
    </property>
   </action>
-  <action name="actionExit">
+  <action name="actionFile_CloseOthers">
    <property name="text">
-    <string>Exit</string>
+    <string>Close All Except Current File</string>
+   </property>
+  </action>
+  <action name="actionFile_Exit">
+   <property name="icon">
+    <iconset theme="application-exit"/>
+   </property>
+   <property name="text">
+    <string>E&amp;xit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionNewFile">
+  <action name="actionFile_New">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
    <property name="text">
     <string>&amp;New File</string>
    </property>
@@ -314,12 +381,55 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionCloseAllFiles">
+  <action name="actionFile_CloseAll">
    <property name="text">
-    <string>Close All</string>
+    <string>Close All Files</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+W</string>
+   </property>
+  </action>
+  <action name="actionFile_Save">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFile_SaveAll">
+   <property name="text">
+    <string>Save All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionFile_SaveAs">
+   <property name="icon">
+    <iconset theme="document-save-as"/>
+   </property>
+   <property name="text">
+    <string>Save &amp;As...</string>
+   </property>
+  </action>
+  <action name="actionFile_Print">
+   <property name="icon">
+    <iconset theme="document-print"/>
+   </property>
+   <property name="text">
+    <string>&amp;Print...</string>
+   </property>
+  </action>
+  <action name="actionEdit_Delete">
+   <property name="icon">
+    <iconset theme="edit-delete"/>
+   </property>
+   <property name="text">
+    <string>&amp;Delete</string>
    </property>
   </action>
  </widget>
