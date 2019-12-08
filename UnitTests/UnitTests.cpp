@@ -61,10 +61,12 @@ void UnitTests::testCase_Hl7Message_fromString_V24_3_5_1_AdtA01()
                             "NK1|1|JONES^BARBARA^K|WI^WIFE||||NK^NEXT OF KIN\r"
                             "PV1|1|I|2000^2012^01||||004777^LEBAUER^SIDNEY^J.|||SUR||||ADM|A0|";
 
-    QSharedPointer<HL7WB::Hl7Message> message = HL7WB::Hl7Message::fromString(messageString);
+    QSharedPointer<Hl7Message> message = Hl7Message::fromString(messageString);
 
     QVERIFY(!message.isNull());
     QVERIFY(message->isValid());
+
+    QCOMPARE(message->toString(), messageString);
 
     // test MSH-1 and MSH-2 which are a little bit special
     QCOMPARE(message->field("MSH", 1)->toString(), QString("|"));

@@ -67,6 +67,11 @@ QSharedPointer<Hl7Component> Hl7Field::component(qint64 componentId) const
     }
 }
 
+qint64 Hl7Field::fieldId() const
+{
+    return m_fieldId;
+}
+
 bool Hl7Field::isValid() const
 {
     if (!Hl7MessagePart::isValid())

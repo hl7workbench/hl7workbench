@@ -126,6 +126,10 @@ QString Hl7Segment::toString(QSharedPointer<const Hl7EncodingCharacters> encodin
     while (i.hasNext()) {
         i.next();
 
+        // edge case: MSH-1 equals field separator, will be added by join
+        if (m_segmentId == "MSH" && i.value()->fieldId() == 1)
+            continue;
+
         fieldStrings.append(i.value()->toString(encodingCharacters));
     }
 

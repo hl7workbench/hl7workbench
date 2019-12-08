@@ -44,6 +44,8 @@ public:
 
     QSharedPointer<Hl7Component> component(qint64 componentId) const;
 
+    qint64 fieldId() const;
+
     virtual bool isValid() const override;
 
     using Hl7MessagePart::toString;
