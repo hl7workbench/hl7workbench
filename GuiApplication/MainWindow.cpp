@@ -43,7 +43,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionExit_triggered()
+void MainWindow::on_actionFile_Exit_triggered()
 {
     close();
 }

@@ -35,7 +35,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_actionExit_triggered();
+    void on_actionFile_Exit_triggered();
 
 private:
     Ui::MainWindow *ui;
