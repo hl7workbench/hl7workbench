@@ -19,7 +19,13 @@
 
 #include "Hl7MessageEditorTabWidget.h"
 
+#include "Hl7GuiCommon.h"
 #include "Hl7MessageEditorWidget.h"
+
+#include <QAction>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QTextStream>
 
 Hl7MessageEditorTabWidget::Hl7MessageEditorTabWidget(QWidget *parent) :
     QTabWidget(parent),
@@ -126,19 +132,69 @@ void Hl7MessageEditorTabWidget::newFile()
     m_untitledDocumentIds.insert(i-1, i);
 
     Hl7MessageEditorWidget *w = new Hl7MessageEditorWidget(i, this);
+    newTab(w);
+}
 
-    connect(w, &Hl7MessageEditorWidget::fileNameChanged,
+void Hl7MessageEditorTabWidget::newTab(Hl7MessageEditorWidget *widget)
+{
+    connect(widget, &Hl7MessageEditorWidget::fileNameChanged,
             this, &Hl7MessageEditorTabWidget::fileNameChangedInEditor);
-    connect(w, &Hl7MessageEditorWidget::filePathChanged,
+    connect(widget, &Hl7MessageEditorWidget::filePathChanged,
             this, &Hl7MessageEditorTabWidget::filePathChangedInEditor);
-    connect(w, &Hl7MessageEditorWidget::removeUntitledDocumentId,
+    connect(widget, &Hl7MessageEditorWidget::removeUntitledDocumentId,
             this, &Hl7MessageEditorTabWidget::removeUntitledDoucmentId);
 
-    QString fileName = w->fileName();
-    int index = addTab(w, fileName);
+    QString fileName = widget->fileName();
+    int index = addTab(widget, fileName);
     setTabToolTip(index, fileName);
-    setCurrentWidget(w);
+    setCurrentWidget(widget);
     emit viewedFileNameChanged(fileName);
+}
+
+void Hl7MessageEditorTabWidget::openFile()
+{
+    QString folder;
+    if (Hl7MessageEditorWidget *w = qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        if (w->untitledDocumentId() == -1)
+        {
+            folder = QFileInfo(w->filePath()).absolutePath();
+        }
+        else
+        {
+            QStringList documentLocations =
+                    QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+
+            if (documentLocations.count() > 0)
+            {
+                folder = documentLocations[0];
+            }
+            else
+            {
+                folder = QDir::currentPath();
+            }
+        }
+    }
+
+    QFileDialog openDialog(this,
+                           "Open File",
+                           folder,
+                           HL7_FILE_FILTER);
+    openDialog.setAcceptMode(QFileDialog::AcceptOpen);
+
+    if (QDialog::Accepted == openDialog.exec() &&
+            1 == openDialog.selectedFiles().count())
+    {
+        openFile(QDir(folder).absoluteFilePath(openDialog.selectedFiles()[0]));
+    }
+}
+
+void Hl7MessageEditorTabWidget::openRecentFile()
+{
+    if (QAction *action = qobject_cast<QAction*>(sender()))
+    {
+        openFile(action->property("filePath").toString());
+    }
 }
 
 void Hl7MessageEditorTabWidget::removeUntitledDoucmentId(int id)
@@ -183,5 +239,24 @@ void Hl7MessageEditorTabWidget::showEvent(QShowEvent *e)
     if (count() == 0)
     {
         newFile();
+    }
+}
+
+void Hl7MessageEditorTabWidget::openFile(const QString &filePath)
+{
+    QFile file(filePath);
+
+    if (file.open(QFile::ReadOnly | QFile::Text))
+    {
+        QTextStream stream(&file);
+
+        QString plainText = stream.readAll();
+
+        file.close();
+
+        Hl7MessageEditorWidget *w = new Hl7MessageEditorWidget(plainText,
+                                                               QFileInfo(file),
+                                                               this);
+        newTab(w);
     }
 }

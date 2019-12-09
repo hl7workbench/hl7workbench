@@ -22,6 +22,9 @@
 
 #include <QTabWidget>
 
+class Hl7MessageEditorWidget;
+class QFileInfo;
+
 class Hl7MessageEditorTabWidget : public QTabWidget
 {
     Q_OBJECT
@@ -43,6 +46,9 @@ public slots:
     void fileNameChangedInEditor(QString newFileName);
     void filePathChangedInEditor(QString newFilePath);
     void newFile();
+    void newTab(Hl7MessageEditorWidget *widget);
+    void openFile();
+    void openRecentFile();
     void removeUntitledDoucmentId(int id);
     void saveFile();
     void saveFileAs();
@@ -52,6 +58,8 @@ protected:
     virtual void showEvent(QShowEvent *e) override;
 
 private:
+    void openFile(const QString &filePath);
+
     QList<int> m_untitledDocumentIds;
 };
 

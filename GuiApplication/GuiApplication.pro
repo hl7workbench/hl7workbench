@@ -24,7 +24,8 @@ TEMPLATE = app
 
 HEADERS += MainWindow.h \
     Hl7MessageEditorTabWidget.h \
-    Hl7MessageEditorWidget.h
+    Hl7MessageEditorWidget.h \
+    Hl7GuiCommon.h
 
 SOURCES += main.cpp \
            MainWindow.cpp \

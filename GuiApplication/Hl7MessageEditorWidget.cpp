@@ -19,7 +19,10 @@
 
 #include "Hl7MessageEditorWidget.h"
 
+#include "Hl7GuiCommon.h"
+
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QStandardPaths>
 #include <QTextStream>
 
@@ -34,12 +37,23 @@ Hl7MessageEditorWidget::Hl7MessageEditorWidget(int untitledDocumentId,
     setFont(QFont("Ubuntu Mono", f.pointSize()));
 }
 
-Hl7MessageEditorWidget::Hl7MessageEditorWidget(const QString &filename,
+Hl7MessageEditorWidget::Hl7MessageEditorWidget(const QString &plainText,
+                                               const QFileInfo &fileInfo,
                                                QWidget *parent) :
     QTextEdit(parent),
-    m_fileInfo(filename),
+    m_fileInfo(fileInfo),
     m_untitledDocumentId(-1)
 {
+    QFont f = currentFont();
+
+    setFont(QFont("Ubuntu Mono", f.pointSize()));
+
+    setPlainText(plainText);
+}
+
+const QFileInfo &Hl7MessageEditorWidget::fileInfo() const
+{
+    return m_fileInfo;
 }
 
 QString Hl7MessageEditorWidget::fileName() const
@@ -90,7 +104,10 @@ void Hl7MessageEditorWidget::saveFileAs()
         }
     }
 
-    QFileDialog saveDialog(this, "Save File As", folder, "HL7 Files (*.hl7);;Text Files (*.txt);;All Files(*.*)");
+    QFileDialog saveDialog(this,
+                           "Save File As",
+                           folder,
+                           HL7_FILE_FILTER);
     saveDialog.setAcceptMode(QFileDialog::AcceptSave);
     saveDialog.selectFile(m_fileInfo.fileName());
 

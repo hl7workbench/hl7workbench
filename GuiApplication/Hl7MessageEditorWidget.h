@@ -30,9 +30,11 @@ class Hl7MessageEditorWidget : public QTextEdit
 public:
     explicit Hl7MessageEditorWidget(int untitledDocumentId = 1,
                                     QWidget *parent = Q_NULLPTR);
-    explicit Hl7MessageEditorWidget(const QString &fileName,
+    explicit Hl7MessageEditorWidget(const QString &plainText,
+                                    const QFileInfo &fileInfo,
                                     QWidget *parent = Q_NULLPTR);
 
+    const QFileInfo &fileInfo() const;
     QString fileName() const;
     QString filePath() const;
     int untitledDocumentId() const;

@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFile_New, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::newFile);
 
+    connect(ui->actionFile_Open, &QAction::triggered,
+            ui->messageEditorTabWidget, qOverload<>(&Hl7MessageEditorTabWidget::openFile));
+
     connect(ui->actionFile_Save, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::saveFile);
     connect(ui->actionFile_SaveAs, &QAction::triggered,
