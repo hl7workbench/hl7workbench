@@ -176,8 +176,11 @@ void Hl7MessageEditorWidget::saveTo(const QFileInfo &fileInfo)
         stream.flush();
         file.close();
 
-        emit removeUntitledDocumentId(m_untitledDocumentId);
-        m_untitledDocumentId = -1;
+        if (-1 != m_untitledDocumentId)
+        {
+            emit removeUntitledDocumentId(m_untitledDocumentId);
+            m_untitledDocumentId = -1;
+        }
 
         m_fileInfo = fileInfo;
         emit fileNameChanged(m_fileInfo.fileName());
