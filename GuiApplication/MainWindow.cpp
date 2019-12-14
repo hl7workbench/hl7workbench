@@ -48,6 +48,24 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionFile_CloseOthers, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::closeAllExceptCurrentTab);
 
+    connect(ui->actionEdit_Undo, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::undo);
+    connect(ui->actionEdit_Redo, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::redo);
+
+    connect(ui->actionEdit_Cut, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::cut);
+    connect(ui->actionEdit_Copy, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::copy);
+    connect(ui->actionEdit_Paste, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::paste);
+
+    connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::copyAvailable,
+            this, &MainWindow::copyAvailable);
+    connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::redoAvailable,
+             this, &MainWindow::redoAvailable);
+    connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::undoAvailable,
+            this, &MainWindow::undoAvailable);
     connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::viewedFileNameChanged,
             this, &MainWindow::viewedFileNameChanged);
 }
@@ -57,12 +75,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::viewedFileNameChanged(QString fileName)
+void MainWindow::copyAvailable(bool available)
 {
-    setWindowTitle(QString("HL7 Workbench [%1]").arg(fileName));
+    ui->actionEdit_Copy->setEnabled(available);
+    ui->actionEdit_Cut->setEnabled(available);
 }
 
 void MainWindow::on_actionFile_Exit_triggered()
 {
     close();
+}
+
+void MainWindow::redoAvailable(bool available)
+{
+    ui->actionEdit_Redo->setEnabled(available);
+}
+
+void MainWindow::undoAvailable(bool available)
+{
+    ui->actionEdit_Undo->setEnabled(available);
+}
+
+void MainWindow::viewedFileNameChanged(QString fileName)
+{
+    setWindowTitle(QString("HL7 Workbench [%1]").arg(fileName));
 }

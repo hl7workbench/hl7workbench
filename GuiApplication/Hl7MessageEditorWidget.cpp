@@ -26,29 +26,38 @@
 #include <QStandardPaths>
 #include <QTextStream>
 
-Hl7MessageEditorWidget::Hl7MessageEditorWidget(int untitledDocumentId,
-                                               QWidget *parent) :
-    QTextEdit(parent),
-    m_fileInfo(QString("Untitled %1.hl7").arg(untitledDocumentId)),
-    m_untitledDocumentId(untitledDocumentId)
-{
-    QFont f = currentFont();
-
-    setFont(QFont("Ubuntu Mono", f.pointSize()));
-}
-
 Hl7MessageEditorWidget::Hl7MessageEditorWidget(const QString &plainText,
                                                const QFileInfo &fileInfo,
                                                QWidget *parent) :
     QTextEdit(parent),
+    m_copyAvailable(false),
     m_fileInfo(fileInfo),
+    m_redoAvaiable(false),
+    m_undoAvailable(false),
     m_untitledDocumentId(-1)
 {
     QFont f = currentFont();
-
     setFont(QFont("Ubuntu Mono", f.pointSize()));
 
+    setAcceptRichText(false);
+
+    connect(this, &QTextEdit::copyAvailable,
+            this, &Hl7MessageEditorWidget::copyAvailableChanged);
+    connect(this, &QTextEdit::redoAvailable,
+            this, &Hl7MessageEditorWidget::redoAvailableChanged);
+    connect(this, &QTextEdit::undoAvailable,
+            this, &Hl7MessageEditorWidget::undoAvailableChanged);
+
     setPlainText(plainText);
+}
+
+Hl7MessageEditorWidget::Hl7MessageEditorWidget(int untitledDocumentId,
+                                               QWidget *parent) :
+    Hl7MessageEditorWidget(QString(),
+                           QString("Untitled %1.hl7").arg(untitledDocumentId),
+                           parent)
+{
+    m_untitledDocumentId = untitledDocumentId;
 }
 
 const QFileInfo &Hl7MessageEditorWidget::fileInfo() const
@@ -64,6 +73,21 @@ QString Hl7MessageEditorWidget::fileName() const
 QString Hl7MessageEditorWidget::filePath() const
 {
     return m_fileInfo.absoluteFilePath();
+}
+
+bool Hl7MessageEditorWidget::isCopyAvailable() const
+{
+    return m_copyAvailable;
+}
+
+bool Hl7MessageEditorWidget::isRedoAvailable() const
+{
+    return m_redoAvaiable;
+}
+
+bool Hl7MessageEditorWidget::isUndoAvailable() const
+{
+    return m_undoAvailable;
 }
 
 int Hl7MessageEditorWidget::untitledDocumentId() const
@@ -116,6 +140,21 @@ void Hl7MessageEditorWidget::saveFileAs()
     {
         saveTo(QFileInfo(QDir(folder).absoluteFilePath(saveDialog.selectedFiles()[0])));
     }
+}
+
+void Hl7MessageEditorWidget::copyAvailableChanged(bool available)
+{
+    m_copyAvailable = available;
+}
+
+void Hl7MessageEditorWidget::redoAvailableChanged(bool available)
+{
+    m_redoAvaiable = available;
+}
+
+void Hl7MessageEditorWidget::undoAvailableChanged(bool available)
+{
+    m_undoAvailable = available;
 }
 
 void Hl7MessageEditorWidget::saveTo(const QFileInfo &fileInfo)

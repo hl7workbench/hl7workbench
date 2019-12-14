@@ -29,6 +29,7 @@
 
 Hl7MessageEditorTabWidget::Hl7MessageEditorTabWidget(QWidget *parent) :
     QTabWidget(parent),
+    m_lastEditorWidget(Q_NULLPTR),
     m_untitledDocumentIds()
 {
     connect(this, &QTabWidget::tabCloseRequested,
@@ -87,12 +88,57 @@ void Hl7MessageEditorTabWidget::closeTab(int index)
     closeTab(index, true);
 }
 
+void Hl7MessageEditorTabWidget::copy()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->copy();
+    }
+}
+
+void Hl7MessageEditorTabWidget::copyAvailableChangedInEditor(bool available)
+{
+    emit copyAvailable(available);
+}
+
 void Hl7MessageEditorTabWidget::currentTabChanged(int index)
 {
+    // disconnect us from all signals while we are on a different editor tab
+    if (Q_NULLPTR != m_lastEditorWidget)
+    {
+        disconnect(m_lastEditorWidget, Q_NULLPTR, this, Q_NULLPTR);
+    }
+
     if (Hl7MessageEditorWidget *w =
             qobject_cast<Hl7MessageEditorWidget*>(widget(index)))
     {
+        // send the current availabilities to the main window
+        emit copyAvailable(w->isCopyAvailable());
+        emit redoAvailable(w->isRedoAvailable());
+        emit undoAvailable(w->isUndoAvailable());
+
+        // let the main window know the current tab's file name
         emit viewedFileNameChanged(w->fileName());
+
+        // connect us to future changes to availabilities
+        connect(w, &Hl7MessageEditorWidget::copyAvailable,
+                this, &Hl7MessageEditorTabWidget::copyAvailableChangedInEditor);
+        connect(w, &Hl7MessageEditorWidget::redoAvailable,
+                this, &Hl7MessageEditorTabWidget::redoAvailableChangedInEditor);
+        connect(w, &Hl7MessageEditorWidget::undoAvailable,
+                this, &Hl7MessageEditorTabWidget::undoAvailableChangedInEditor);
+
+        m_lastEditorWidget = w;
+    }
+}
+
+void Hl7MessageEditorTabWidget::cut()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->cut();
     }
 }
 
@@ -197,6 +243,29 @@ void Hl7MessageEditorTabWidget::openRecentFile()
     }
 }
 
+void Hl7MessageEditorTabWidget::paste()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->paste();
+    }
+}
+
+void Hl7MessageEditorTabWidget::redo()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->redo();
+    }
+}
+
+void Hl7MessageEditorTabWidget::redoAvailableChangedInEditor(bool available)
+{
+    emit redoAvailable(available);
+}
+
 void Hl7MessageEditorTabWidget::removeUntitledDoucmentId(int id)
 {
     m_untitledDocumentIds.removeAll(id);
@@ -230,6 +299,20 @@ void Hl7MessageEditorTabWidget::saveAllFiles()
             w->saveFileAs();
         }
     }
+}
+
+void Hl7MessageEditorTabWidget::undo()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->undo();
+    }
+}
+
+void Hl7MessageEditorTabWidget::undoAvailableChangedInEditor(bool available)
+{
+    emit undoAvailable(available);
 }
 
 void Hl7MessageEditorTabWidget::showEvent(QShowEvent *e)

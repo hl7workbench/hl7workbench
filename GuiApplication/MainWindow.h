@@ -34,11 +34,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-public slots:
-    void viewedFileNameChanged(QString fileName);
-
 private slots:
+    void copyAvailable(bool available);
     void on_actionFile_Exit_triggered();
+    void redoAvailable(bool available);
+    void undoAvailable(bool available);
+    void viewedFileNameChanged(QString fileName);
 
 private:
     Ui::MainWindow *ui;

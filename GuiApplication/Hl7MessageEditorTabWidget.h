@@ -35,24 +35,35 @@ public:
     void closeTab(int index, bool openNewWhenLast);
 
 signals:
+    void copyAvailable(bool available);
+    void redoAvailable(bool available);
     void viewedFileNameChanged(QString fileName);
+    void undoAvailable(bool available);
 
 public slots:
     void closeAllExceptCurrentTab();
     void closeAllTabs();
     void closeCurrentTab();
     void closeTab(int index);
+    void copy();
+    void copyAvailableChangedInEditor(bool available);
     void currentTabChanged(int index);
+    void cut();
     void fileNameChangedInEditor(QString newFileName);
     void filePathChangedInEditor(QString newFilePath);
     void newFile();
     void newTab(Hl7MessageEditorWidget *widget);
     void openFile();
     void openRecentFile();
+    void paste();
+    void redo();
+    void redoAvailableChangedInEditor(bool available);
     void removeUntitledDoucmentId(int id);
     void saveFile();
     void saveFileAs();
     void saveAllFiles();
+    void undo();
+    void undoAvailableChangedInEditor(bool available);
 
 protected:
     virtual void showEvent(QShowEvent *e) override;
@@ -60,6 +71,7 @@ protected:
 private:
     void openFile(const QString &filePath);
 
+    Hl7MessageEditorWidget *m_lastEditorWidget;
     QList<int> m_untitledDocumentIds;
 };
 

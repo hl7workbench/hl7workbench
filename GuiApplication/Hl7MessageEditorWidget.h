@@ -28,15 +28,18 @@ class Hl7MessageEditorWidget : public QTextEdit
     Q_OBJECT
 
 public:
-    explicit Hl7MessageEditorWidget(int untitledDocumentId = 1,
-                                    QWidget *parent = Q_NULLPTR);
     explicit Hl7MessageEditorWidget(const QString &plainText,
                                     const QFileInfo &fileInfo,
+                                    QWidget *parent = Q_NULLPTR);
+    explicit Hl7MessageEditorWidget(int untitledDocumentId = 1,
                                     QWidget *parent = Q_NULLPTR);
 
     const QFileInfo &fileInfo() const;
     QString fileName() const;
     QString filePath() const;
+    bool isCopyAvailable() const;
+    bool isRedoAvailable() const;
+    bool isUndoAvailable() const;
     int untitledDocumentId() const;
 
 signals:
@@ -48,10 +51,18 @@ public slots:
     void saveFile();
     void saveFileAs();
 
+private slots:
+    void copyAvailableChanged(bool available);
+    void redoAvailableChanged(bool available);
+    void undoAvailableChanged(bool available);
+
 private:
     void saveTo(const QFileInfo &fileInfo);
 
+    bool m_copyAvailable;
     QFileInfo m_fileInfo;
+    bool m_redoAvaiable;
+    bool m_undoAvailable;
     int m_untitledDocumentId;
 };
 
