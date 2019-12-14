@@ -266,6 +266,15 @@ void Hl7MessageEditorTabWidget::redoAvailableChangedInEditor(bool available)
     emit redoAvailable(available);
 }
 
+void Hl7MessageEditorTabWidget::removeSelectedText()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->removeSelectedText();
+    }
+}
+
 void Hl7MessageEditorTabWidget::removeUntitledDoucmentId(int id)
 {
     m_untitledDocumentIds.removeAll(id);
@@ -298,6 +307,15 @@ void Hl7MessageEditorTabWidget::saveAllFiles()
         {
             w->saveFileAs();
         }
+    }
+}
+
+void Hl7MessageEditorTabWidget::selectAll()
+{
+    if (Hl7MessageEditorWidget *w =
+            qobject_cast<Hl7MessageEditorWidget*>(currentWidget()))
+    {
+        w->selectAll();
     }
 }
 

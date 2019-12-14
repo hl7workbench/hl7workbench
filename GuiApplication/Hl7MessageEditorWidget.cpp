@@ -95,6 +95,11 @@ int Hl7MessageEditorWidget::untitledDocumentId() const
     return m_untitledDocumentId;
 }
 
+void Hl7MessageEditorWidget::removeSelectedText()
+{
+    textCursor().removeSelectedText();
+}
+
 void Hl7MessageEditorWidget::saveFile()
 {
     if (-1 != m_untitledDocumentId)

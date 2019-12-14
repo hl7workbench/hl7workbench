@@ -48,6 +48,7 @@ signals:
     void filePathChanged(QString newFilePath);
 
 public slots:
+    void removeSelectedText();
     void saveFile();
     void saveFileAs();
 

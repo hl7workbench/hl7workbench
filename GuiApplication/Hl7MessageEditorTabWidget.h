@@ -58,10 +58,12 @@ public slots:
     void paste();
     void redo();
     void redoAvailableChangedInEditor(bool available);
+    void removeSelectedText();
     void removeUntitledDoucmentId(int id);
     void saveFile();
     void saveFileAs();
     void saveAllFiles();
+    void selectAll();
     void undo();
     void undoAvailableChangedInEditor(bool available);
 

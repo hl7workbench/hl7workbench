@@ -59,6 +59,11 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::copy);
     connect(ui->actionEdit_Paste, &QAction::triggered,
             ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::paste);
+    connect(ui->actionEdit_Delete, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::removeSelectedText);
+
+    connect(ui->actionEdit_SelectAll, &QAction::triggered,
+            ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::selectAll);
 
     connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::copyAvailable,
             this, &MainWindow::copyAvailable);
