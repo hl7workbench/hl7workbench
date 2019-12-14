@@ -34,4 +34,9 @@ SOURCES += main.cpp \
 
 FORMS += MainWindow.ui
 
+unix {
+    target.path = /usr/bin
+    INSTALLS += target
+}
+
 include(../Global.pri)

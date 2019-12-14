@@ -41,10 +41,4 @@ SOURCES += Library.cpp \
     Hl7Field.cpp \
     Hl7MessagePart.cpp
 
-
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
-
 include(../Global.pri)
