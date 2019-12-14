@@ -25,18 +25,22 @@ TEMPLATE = app
 HEADERS += MainWindow.h \
     Hl7MessageEditorTabWidget.h \
     Hl7MessageEditorWidget.h \
-    Hl7GuiCommon.h
+    Hl7GuiCommon.h \
+    MessageLogView.h
 
 SOURCES += main.cpp \
            MainWindow.cpp \
     Hl7MessageEditorTabWidget.cpp \
-    Hl7MessageEditorWidget.cpp
+    Hl7MessageEditorWidget.cpp \
+    MessageLogView.cpp
 
 FORMS += MainWindow.ui
+
+HL7WB_DEPENDENCIES = Library
+
+include(../Global.pri)
 
 unix {
     target.path = /usr/bin
     INSTALLS += target
 }
-
-include(../Global.pri)

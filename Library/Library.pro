@@ -30,7 +30,8 @@ HEADERS += Library.h \
     Hl7SubComponent.h \
     Hl7EncodingCharacters.h \
     Hl7Field.h \
-    Hl7MessagePart.h
+    Hl7MessagePart.h \
+    MessageLogModel.h
 
 SOURCES += Library.cpp \
     Hl7Message.cpp \
@@ -39,6 +40,7 @@ SOURCES += Library.cpp \
     Hl7SubComponent.cpp \
     Hl7EncodingCharacters.cpp \
     Hl7Field.cpp \
-    Hl7MessagePart.cpp
+    Hl7MessagePart.cpp \
+    MessageLogModel.cpp
 
 include(../Global.pri)

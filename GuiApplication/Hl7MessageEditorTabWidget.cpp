@@ -27,6 +27,9 @@
 #include <QStandardPaths>
 #include <QTextStream>
 
+namespace HL7WB
+{
+
 Hl7MessageEditorTabWidget::Hl7MessageEditorTabWidget(QWidget *parent) :
     QTabWidget(parent),
     m_lastEditorWidget(Q_NULLPTR),
@@ -361,3 +364,5 @@ void Hl7MessageEditorTabWidget::openFile(const QString &filePath)
         newTab(w);
     }
 }
+
+} // namespace

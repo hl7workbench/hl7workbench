@@ -22,6 +22,9 @@
 
 #include "Hl7MessageEditorTabWidget.h"
 
+namespace HL7WB
+{
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -104,4 +107,6 @@ void MainWindow::undoAvailable(bool available)
 void MainWindow::viewedFileNameChanged(QString fileName)
 {
     setWindowTitle(QString("HL7 Workbench [%1]").arg(fileName));
+}
+
 }

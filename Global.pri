@@ -30,3 +30,10 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x050000    # disables all the APIs depr
 
 # Enable arrow operator for weak pointers
 DEFINES += QWEAKPOINTER_ENABLE_ARROW
+
+contains(HL7WB_DEPENDENCIES, Library) {
+    INCLUDEPATH += ../Library
+
+    LIBS += -L../Library -lhl7workbench
+    PRE_TARGETDEPS = ../Library/libhl7workbench.a
+}

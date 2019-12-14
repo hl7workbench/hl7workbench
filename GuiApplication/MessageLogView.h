@@ -17,14 +17,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef HL7GUICOMMON_H
-#define HL7GUICOMMON_H
+#ifndef MESSAGELOGVIEW_H
+#define MESSAGELOGVIEW_H
+
+#include <QTableView>
 
 namespace HL7WB
 {
 
-#define HL7_FILE_FILTER "HL7 Files (*.hl7);;Text Files (*.txt);;All Files(*.*)"
+class MessageLogModel;
 
-} // namespace
+class MessageLogView : public QTableView
+{
+    Q_OBJECT
 
-#endif // HL7GUICOMMON_H
+public:
+    MessageLogView(QWidget *parent = Q_NULLPTR);
+
+    void setModel(MessageLogModel *model);
+};
+
+} // namespave
+
+#endif // MESSAGELOGVIEW_H

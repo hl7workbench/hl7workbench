@@ -26,6 +26,9 @@
 #include <QStandardPaths>
 #include <QTextStream>
 
+namespace HL7WB
+{
+
 Hl7MessageEditorWidget::Hl7MessageEditorWidget(const QString &plainText,
                                                const QFileInfo &fileInfo,
                                                QWidget *parent) :
@@ -187,3 +190,5 @@ void Hl7MessageEditorWidget::saveTo(const QFileInfo &fileInfo)
         emit filePathChanged(m_fileInfo.absoluteFilePath());
     }
 }
+
+} // namespace

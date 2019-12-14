@@ -22,8 +22,12 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class MainWindow;
+namespace HL7WB
+{
+
+namespace Ui
+{
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -44,5 +48,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 };
+
+} // namespace
 
 #endif // MAINWINDOW_H

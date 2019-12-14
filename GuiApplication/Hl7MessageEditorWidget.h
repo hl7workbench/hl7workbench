@@ -23,6 +23,9 @@
 #include <QTextEdit>
 #include <QFileInfo>
 
+namespace HL7WB
+{
+
 class Hl7MessageEditorWidget : public QTextEdit
 {
     Q_OBJECT
@@ -66,5 +69,7 @@ private:
     bool m_undoAvailable;
     int m_untitledDocumentId;
 };
+
+} // namespace
 
 #endif // HL7MESSAGEEDITORWIDGET_H

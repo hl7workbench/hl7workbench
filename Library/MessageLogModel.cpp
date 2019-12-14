@@ -17,14 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef HL7GUICOMMON_H
-#define HL7GUICOMMON_H
+#include "MessageLogModel.h"
 
 namespace HL7WB
 {
 
-#define HL7_FILE_FILTER "HL7 Files (*.hl7);;Text Files (*.txt);;All Files(*.*)"
+MessageLogModel::MessageLogModel(QObject *parent) :
+    QAbstractItemModel(parent)
+{
+}
+
 
 } // namespace
-
-#endif // HL7GUICOMMON_H

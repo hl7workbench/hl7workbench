@@ -22,8 +22,12 @@
 
 #include <QTabWidget>
 
-class Hl7MessageEditorWidget;
 class QFileInfo;
+
+namespace HL7WB
+{
+
+class Hl7MessageEditorWidget;
 
 class Hl7MessageEditorTabWidget : public QTabWidget
 {
@@ -76,5 +80,7 @@ private:
     Hl7MessageEditorWidget *m_lastEditorWidget;
     QList<int> m_untitledDocumentIds;
 };
+
+} // namespace
 
 #endif // HL7MESSAGEEDITORTABWIDGET_H
