@@ -37,6 +37,6 @@ public:
     void setModel(MessageLogModel *model);
 };
 
-} // namespave
+} // namespace
 
 #endif // MESSAGELOGVIEW_H

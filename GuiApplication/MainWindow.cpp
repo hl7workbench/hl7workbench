@@ -22,6 +22,8 @@
 
 #include "Hl7MessageEditorTabWidget.h"
 
+#include "MessageLogModel.h"
+
 namespace HL7WB
 {
 
@@ -76,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, &MainWindow::undoAvailable);
     connect(ui->messageEditorTabWidget, &Hl7MessageEditorTabWidget::viewedFileNameChanged,
             this, &MainWindow::viewedFileNameChanged);
+
+    ui->senderMessageLogView->setModel(new MessageLogModel(this));
 }
 
 MainWindow::~MainWindow()

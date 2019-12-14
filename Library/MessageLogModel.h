@@ -20,17 +20,24 @@
 #ifndef MESSAGELOGMODEL_H
 #define MESSAGELOGMODEL_H
 
-#include <QAbstractItemModel>
+#include <QAbstractTableModel>
 
 namespace HL7WB
 {
 
-class MessageLogModel : public QAbstractItemModel
+class MessageLogModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
     MessageLogModel(QObject *parent = Q_NULLPTR);
+
+    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    virtual QVariant headerData(int section, Qt::Orientation orientation,
+                                int role = Qt::DisplayRole) const override;
+    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+
 };
 
 } // namespace
