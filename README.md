@@ -17,7 +17,7 @@ receive Health Level 7 (HL7) messages.
 
 * Install build dependencies
     ```
-    sudo apt install build-essentials qtbase5-dev
+    sudo apt install build-essentials git qtbase5-dev
     ```
 
 * Download HL7 Workbench source
