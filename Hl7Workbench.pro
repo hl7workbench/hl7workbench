@@ -25,7 +25,8 @@ SUBDIRS += \
 
 OTHER_FILES = .gitignore \
               Global.pri \
-              license-template.txt
+              license-template.txt \
+              README.md
 
 GuiApplication.depends = Library
 UnitTests.depends = Library
